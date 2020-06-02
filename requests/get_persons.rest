@@ -1,1 +1,1 @@
-GET https://agile-springs-10319.herokuapp.com/api/persons
+GET http://localhost:3001/api/persons

@@ -21,22 +21,37 @@ const personSchema = new mongoose.Schema({
 
 const Person = mongoose.model("Person", personSchema);
 
-if (name && number) {
-  const person = new Person({
-    name: name,
-    number: number,
-  });
-
-  person.save().then((result) => {
-    console.log(`added ${name} number ${number} to phonebook`);
-    mongoose.connection.close();
-  });
-} else {
-  Person.find({}).then((result) => {
-    console.log("Phonebook:");
-    result.forEach((res) => {
-      console.log(`${res.name} ${res.number}`);
-    });
-    mongoose.connection.close();
-  });
-}
+// if (name && number) {
+//   const person = new Person({
+//     name: name,
+//     number: number,
+//   });
+//   person.save().then((result) => {
+//     console.log(`added ${name} number ${number} to phonebook`);
+//     mongoose.connection.close();
+//   });
+// } else {
+//   Person.find({}).then((result) => {
+//     console.log("Phonebook:");
+//     result.forEach((res) => {
+//       console.log(`${res.name} ${res.number}`);
+//     });
+//     mongoose.connection.close();
+//   });
+// }
+const infoSchema = new mongoose.Schema({
+  date: String,
+  size: Number,
+});
+const Info = mongoose.model("Info", infoSchema);
+const info = new Info({
+  date: new Date(),
+  size: 1,
+});
+Person.collection.stats().then((r) => {
+  info.size = r.count;
+});
+info.save().then((result) => {
+  console.log(result);
+  mongoose.connection.close();
+});
